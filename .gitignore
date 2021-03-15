@@ -124,6 +124,9 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+# media dir
+uploads/
+
 # secret settings
 secrets.json
 
