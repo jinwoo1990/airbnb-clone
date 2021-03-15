@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='photo',
             name='room',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='photos', to='rooms.Room'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='room_photos', to='rooms.Room'),
         ),
         migrations.AlterField(
             model_name='room',

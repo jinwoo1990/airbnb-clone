@@ -62,7 +62,8 @@ class Photo(core_models.TimeStampedModel):
     """ HouseRule Model Definition """
 
     caption = models.CharField(max_length=80)
-    file = models.ImageField()
+    # uploads 폴더에서 더 세부 경로를 지정
+    file = models.ImageField(upload_to="room_photos")
     # 아래 코드는 class 위치 때문에 에러
     # room = models.ForeignKey(Room, on_delete=models.CASCADE)
     # django 는 아래와 같이 "Room" 으로 작성하면 코드의 아래쪽에 있더라도 불러올 수 있음
@@ -99,13 +100,21 @@ class Room(core_models.TimeStampedModel):
     facilities = models.ManyToManyField("Facility", related_name="rooms", blank=True)
     house_rules = models.ManyToManyField("HouseRule", related_name="rooms", blank=True)
 
+    def save(self, *args, **kwargs):
+        # 이런 식으로 price format 도 정할 수 있고 다 할 수 있음
+        self.city = str.capitalize(self.city)
+        # 윗 부분을 실행하고 상위 객체의 save 를 수행함 (오버라이드)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
     def total_rating(self):
         all_reviews = self.reviews.all()
         all_ratings = 0
-        for review in all_reviews:
-            all_ratings += review.rating_average()
 
-        return all_ratings / len(all_reviews)
+        if len(all_reviews) > 0:
+            for review in all_reviews:
+                all_ratings += review.rating_average()
+
+            return all_ratings / len(all_reviews)

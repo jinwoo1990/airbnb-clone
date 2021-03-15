@@ -48,6 +48,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'django_countries',
+    'django_seed',
 ]
 
 PROJECT_APPS = [
@@ -143,3 +144,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'users.User'
+
+# upload 한 media 파일들 경로, 안 지정해주면 제대로 작동 안 함
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
+
+# 시작에 "/" 를 안 붙이면 현재 url 로부터 상대경로로 이동하기 때문에 부적절, "/" 를 붙여야 127.0.0.1:8000/media/ 로 붙음
+# 프로덕션 환경에서는 사용자 파일 등을 서버에 가지고 있는 게 서버를 확장할 때 좋지 않으므로 Amazon S3 같은 것에 media 파일을 둬야 함
+MEDIA_URL = "/media/"
+
