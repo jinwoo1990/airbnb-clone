@@ -29,7 +29,7 @@ class Reservation(core_models.TimeStampedModel):
     def in_progress(self):
         # django timezone 쓰는 이유: settings 에 참조하기 떄문에. US 에서 들어오면 그거에 따라 바뀔 수 있게 할 수 있음, 기본 util 은 이렇게 못 함
         now = timezone.now().date()
-        return self.check_in < now < self.check_out
+        return self.check_in <= now <= self.check_out
 
     # admin 창에서 False 를 x 표시 나게 바꿔줌
     in_progress.boolean = True
