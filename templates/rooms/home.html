@@ -5,7 +5,13 @@
 {% endblock page_name %}
 
 {% block content %}
-{% for room in rooms %}
-    <h1>{{room.name}} / ${{room.price}} </h1>
-{% endfor %}
+    {% for room in rooms %}
+        <h1>{{room.name}} / ${{room.price}} </h1>
+    {% endfor %}
+
+    <h5>Page {{ page }} of {{ page_count }}</h5>
+
+    {% for page in page_range %}
+        <a href="?page={{ page }}">{{ page }}</a>
+    {% endfor %}
 {% endblock content %}
