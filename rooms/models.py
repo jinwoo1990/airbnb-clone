@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django_countries.fields import CountryField
 from core import models as core_models
 from users import models as user_models
@@ -92,7 +93,7 @@ class Room(core_models.TimeStampedModel):
     instant_book = models.BooleanField(default=False)
     # 다른 모델 참조 (room 에서 연결이 시작됨, many to one relationship, many rooms to one user, room 은 하나의 유저만 가짐)
     # Foreign key 로 user 의 id 를 가르키고 이것으로 user 의 정보를 참조
-    # related_name 은 _set 으로 기본으로 붙는 attribute을 바꿔줌 (room_set -> rooms)
+    # related_name 은 _set 으로 기본으로 붙는 attribute 를 바꿔줌 (room_set -> rooms)
     host = models.ForeignKey("users.User", related_name="rooms", on_delete=models.CASCADE)
     room_type = models.ForeignKey("RoomType", related_name="rooms", on_delete=models.SET_NULL, null=True)
     # many to many (여러가지 room_type 을 가질 수 있음)
@@ -108,6 +109,10 @@ class Room(core_models.TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    # admin 창에 view on site 버튼을 활성화시키고 정의된 url 로 이동할 수 있게 함
+    def get_absolute_url(self):
+        return reverse("rooms:detail", kwargs={'pk': self.pk})
 
     def total_rating(self):
         all_reviews = self.reviews.all()

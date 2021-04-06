@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block page_name %}
+    Home
+{% endblock page_name %}
+
+{% block content %}
+
+{#    {{ now }}#}
+
+    {% for room in rooms %}
+        <h3>
+            <a href="{% url "rooms:detail" room.pk %}">
+                {{room.name}} / ${{room.price}}
+            </a>
+        </h3>
+    {% endfor %}
+
+    <h5>
+
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    {# 로직을 템플릿 안에 넣을 수는 없음, view를 이용하거나 template tags와 filter를 이용 #}
+    {#    <a href="?page={{ page - 1 }}">Previous</a>#}
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+    {% endif %}
+    </h5>
+{% endblock content %}
