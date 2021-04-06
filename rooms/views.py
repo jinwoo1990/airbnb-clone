@@ -1,8 +1,8 @@
 from datetime import datetime
 from math import ceil
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage
 from . import models
 
 
@@ -30,10 +30,20 @@ from . import models
 
 # Paginator 를 이용하면 페이지 넘기는 기능을 엄청 간단하게 만들 수 있음
 def all_rooms(request):
-    page = request.GET.get("page")
+    page = request.GET.get("page", 1)
     # queryset 은 lazy 하므로 밑에처럼 하는 것은 틀만 만들고 데이터를 실제로 불러오지 않음
     # 따라서 부하주지 않음 print() 이런 것 하기 전까지는
     room_list = models.Room.objects.all()
-    paginator = Paginator(room_list, 10)
-    rooms = paginator.get_page(page)
-    return render(request, "rooms/home.html", {"rooms": rooms})
+    # orphans 로 원래 페이지 크기인 10개보다 작을 때 orphans 수 이하의 갯수를 숨김 (페이지에 몇 개만 남는 것 방지, 그 전 페이지에 합쳐버림)
+    paginator = Paginator(room_list, 10, orphans=5)
+
+    try:
+        # get_page 는 좀 더 사용하기 편하게 많은 처리를 해줬고 page 는 각각 에러 상황을 지정해야 되지만 자유도가 높음
+        rooms = paginator.page(int(page))
+        return render(request, "rooms/home.html", {"page": rooms})
+    except EmptyPage:
+        # redirect 를 하면 url 에 user가 page=2332339 이렇게 쳐도 / 로 다시 돌아가므로 깔끔
+        return redirect("/")
+
+
+class
