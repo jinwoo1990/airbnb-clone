@@ -5,13 +5,22 @@
 {% endblock page_name %}
 
 {% block content %}
-    {% for room in rooms %}
+    {% for room in rooms.object_list %}
         <h1>{{room.name}} / ${{room.price}} </h1>
     {% endfor %}
 
-    <h5>Page {{ page }} of {{ page_count }}</h5>
+    <h5>
 
-    {% for page in page_range %}
-        <a href="?page={{ page }}">{{ page }}</a>
-    {% endfor %}
+    {% if rooms.has_previous %}
+        <a href="?page={{ rooms.number|add:-1 }}">Previous</a>
+    {% endif %}
+
+    {# 로직을 템플릿 안에 넣을 수는 없음, view를 이용하거나 template tags와 filter를 이용 #}
+    {#    <a href="?page={{ page - 1 }}">Previous</a>#}
+        Page {{ rooms.number }} of {{ rooms.paginator.num_pages }}
+
+    {% if rooms.has_next %}
+        <a href="?page={{ rooms.number|add:+1 }}">Next</a>
+    {% endif %}
+    </h5>
 {% endblock content %}
