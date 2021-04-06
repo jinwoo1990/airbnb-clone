@@ -7,7 +7,7 @@
 
 from django.utils import timezone
 from django.http import Http404
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from . import models
@@ -79,10 +79,18 @@ class HomeView(ListView):
     #     return context
 
 
-def room_detail(request, pk):
-    try:
-        room = models.Room.objects.get(pk=pk)
-        return render(request, "rooms/detail.html", {"room": room})
-    except models.Room.DoesNotExist:
-        # debug = False 해야 페이지 나옴
-        raise Http404()
+# 짧고 paginate 할 것도 없어 그냥 이렇게 function based view 로 써도 됨
+# def room_detail(request, pk):
+#     try:
+#         room = models.Room.objects.get(pk=pk)
+#         return render(request, "rooms/room_detail.html", {"room": room})
+#     except models.Room.DoesNotExist:
+#         # debug = False 해야 페이지 나옴
+#         raise Http404()
+
+
+class RoomDetail(DetailView):
+
+    """ RoomDetail Definition """
+
+    model = models.Room
