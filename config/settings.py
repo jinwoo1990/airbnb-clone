@@ -30,9 +30,9 @@ with open(secret_file, encoding='utf-8') as f:
 SECRET_KEY = secrets_json["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = "*"
 
 
 # Application definition

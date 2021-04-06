@@ -6,6 +6,7 @@
 # from . import models
 
 from django.utils import timezone
+from django.http import Http404
 from django.views.generic import ListView
 from django.urls import reverse
 from django.shortcuts import render, redirect
@@ -83,5 +84,5 @@ def room_detail(request, pk):
         room = models.Room.objects.get(pk=pk)
         return render(request, "rooms/detail.html", {"room": room})
     except models.Room.DoesNotExist:
-        # url 직접 입력해도 되지만 reverse 쓰는 것을 추천
-        return redirect(reverse("core:home"))
+        # debug = False 해야 페이지 나옴
+        raise Http404()
