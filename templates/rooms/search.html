@@ -61,9 +61,9 @@
             />
         </div>
         <div>
-            <label for="super_host">By Super host Only?</label>
-            <input type="checkbox" id="super_host" name="super_host"
-                   {% if super_host %}
+            <label for="superhost">By Super host Only?</label>
+            <input type="checkbox" id="superhost" name="superhost"
+                   {% if superhost %}
                     checked
                    {% endif %}
             />
@@ -109,6 +109,12 @@
         </div>
         <button>Search</button>
     </form>
-    <h4>Searching by {{ city }}</h4>
+
+    <h3>Results</h3>
+
+    {% for room in rooms %}
+        <h3>{{ room.name }}</h3>
+    {% endfor %}
+
 
 {% endblock content %}
