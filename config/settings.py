@@ -22,12 +22,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-secret_file = os.path.join(BASE_DIR, 'secrets.json')
+# secret_file = os.path.join(BASE_DIR, 'secrets.json')
+#
+# with open(secret_file, encoding='utf-8') as f:
+#     secrets_json = json.load(f)
 
-with open(secret_file, encoding='utf-8') as f:
-    secrets_json = json.load(f)
-
-SECRET_KEY = secrets_json["SECRET_KEY"]
+# SECRET_KEY = secrets_json["SECRET_KEY"]
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -153,3 +154,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 # 프로덕션 환경에서는 사용자 파일 등을 서버에 가지고 있는 게 서버를 확장할 때 좋지 않으므로 Amazon S3 같은 것에 media 파일을 둬야 함
 MEDIA_URL = "/media/"
 
+# Email configuration
+EMAIL_HOST = os.environ.get("MAILGUN_EMAIL_HOST")
+EMAIL_PORT = os.environ.get("MAILGUN_EMAIL_PORT")
+EMAIL_HOST_USER = os.environ.get("MAILGUN_USERNAME")
+EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_PASSWORD")
+EMAIL_FROM = "jini@sandbox404bf3da99dd446ead506292ed51c0b9.mailgun.org"
