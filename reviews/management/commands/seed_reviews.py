@@ -28,12 +28,12 @@ class Command(BaseCommand):
         rooms = room_models.Room.objects.all()
 
         seeder.add_entity(review_models.Review, number, {
-            "accuracy": lambda x: random.randint(0, 6),
-            "communication": lambda x: random.randint(0, 6),
-            "cleanliness": lambda x: random.randint(0, 6),
-            "location": lambda x: random.randint(0, 6),
-            "check_in": lambda x: random.randint(0, 6),
-            "value": lambda x: random.randint(0, 6),
+            "accuracy": lambda x: random.randint(1, 5),
+            "communication": lambda x: random.randint(1, 5),
+            "cleanliness": lambda x: random.randint(1, 5),
+            "location": lambda x: random.randint(1, 5),
+            "check_in": lambda x: random.randint(1, 5),
+            "value": lambda x: random.randint(1, 5),
             "room": lambda x: random.choice(rooms),
             "user": lambda x: random.choice(users),
         })
