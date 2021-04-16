@@ -132,3 +132,6 @@ secrets.json
 
 # etc
 memo.txt
+
+# node
+node_modules
