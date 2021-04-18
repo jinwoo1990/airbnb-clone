@@ -8,6 +8,7 @@
     <title>{% block page_title %}{% endblock page_title %} | Nbnb </title>
 </head>
 <body class="text-gray-800 mt-24 font-light">
+    {% include "partials/messages.html" %}
     <header class="container inset-0 max-w-full flex items-center justify-between px-6 h-20 border-b border-gray-400 fixed bg-white">
     <div class="flex items-center">
         <a href="{% url "core:home" %}" class="mr-6">
