@@ -344,9 +344,7 @@ class EditPhotoView(user_mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateVie
 
 class AddPhotoView(user_mixins.LoggedInOnlyView, SuccessMessageMixin, FormView):
 
-    model = models.Photo
     template_name = "rooms/photo_create.html"
-    fields = ("caption", "file")
     form_class = forms.CreatePhotoForm
 
     def form_valid(self, form):
@@ -354,3 +352,16 @@ class AddPhotoView(user_mixins.LoggedInOnlyView, SuccessMessageMixin, FormView):
         form.save(pk)
         messages.success(self.request, "Photo uploaded")
         return redirect(reverse("rooms:photos", kwargs={"pk": pk}))
+
+
+class CreateRoomView(user_mixins.LoggedInOnlyView, FormView):
+    form_class = forms.CreateRoomForm
+    template_name = "rooms/room_create.html"
+
+    def form_valid(self, form):
+        room = form.save()
+        room.host = self.request.user
+        room.save()
+        form.save_m2m()  # 23.9 commit=false 로 했을 때 m2m로 저장해야 amenities 같은 것들이 저장됨, 그리고 꼭 .save() 뒤에
+        messages.success(self.request, "Room uploaded")
+        return redirect(reverse("rooms:detail", kwargs={'pk': room.pk}))
