@@ -31,7 +31,7 @@
 input,
 textarea,
 select {
-  @apply rounded-sm py-5 w-full font-light text-lg border border-gray-600 px-5;
+  @apply rounded-sm py-5 w-full font-light text-left text-lg border border-gray-600 px-5;
   &:focus {
     @apply outline-none border-red-300;
   }
