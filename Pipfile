@@ -10,6 +10,8 @@ django-countries = "*"
 django-seed = "*"
 django-dotenv = "*"
 requests = "*"
+certifi = "*"
+importlib-metadata = "==2"
 
 [dev-packages]
 awsebcli = "*"
